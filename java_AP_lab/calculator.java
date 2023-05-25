@@ -4,11 +4,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
+import javax.swing.event.MenuKeyEvent;
+
+import java.awt.*;
+import java.awt.event.ActionListener;
+
 
 public class calculator{
     public static void main(String[] args){
         JFrame f = new JFrame("AP-Calculator");
-        
+        JLabel main = new JLabel();
         f.setSize(400, 300);
         JPanel ansJPanel = new JPanel();
         ansJPanel.setBounds(20, 50,300, 42);
@@ -17,33 +22,32 @@ public class calculator{
         ansJPanel.add(entry);
         JLabel st = new JLabel("STATUS:",JLabel.RIGHT);
         st.setBounds(0,0 , 0, 15);
-        JPanel operand = new JPanel();
+        JPanel operand = new JPanel(new GridLayout(5,4,3,3));
+        
+        
+        String op []= {
+            "1","2","3","c","4","5","6","+","7","8","9","-","0","=","/","*","AC","OFF",".",
+        };
 
-        JButton[] num = new JButton[19] ;
-        for (int i = 0; i < 10; i++)
+        JButton[] num = new JButton[19];
+        
+        for (int i = 0; i < 19; i++)
         {
-            num[i] = new JButton(String.valueOf(i));
+            num[i] = new JButton(String.valueOf(op[i]));
+           
+            
             operand.add(num[i]);
 
         }
-        num[10] = new JButton("C");
-        num[11] = new JButton("+");
-        num[12] = new JButton("-");
-        num[13] = new JButton("*");
-        num[14] = new JButton(".");
-        num[15] = new JButton("0ff");
-        num[16] = new JButton("AC");
-        for (int i = 10; i < 17; i++) {
-            operand.add(num[i]);
-        }
+        
         
         ansJPanel.add(st);
 
-        f.add(ansJPanel);
-        f.add(operand);
+        main.add(ansJPanel);
+        main.add(operand);
 
 
-
+        f.add(main);
         f.setVisible(true);
     }
 }
