@@ -1,3 +1,4 @@
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -58,6 +59,23 @@ public class exercise extends JPanel {
         //
     }
 
+    public class graphic {
+        public graphic() {
+          
+            Graphics g = new Graphics() {
+                @Override
+                public void paint(Graphics g) {
+                    g.drawString("Hello", 100, 100);
+                }
+            };
+            g.drawString("Hello", 100, 100);
+     
+
+            JFrame jf = new JFrame("graphics");
+            jf.setSize(300, 300);
+            jf.setVisible(true);
+        }
+}
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {

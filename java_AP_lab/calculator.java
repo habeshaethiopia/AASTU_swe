@@ -1,7 +1,5 @@
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,17 +9,19 @@ import javax.swing.JTextField;
 public class calculator {
     public static void main(String[] args) {
         JFrame f = new JFrame("AP-Calculator");
-        f.setLayout(new FlowLayout());
-        f.setSize(400, 300);
+        f.setLayout(new FlowLayout(FlowLayout.LEFT));
+        f.setSize(300, 250);
+        f.setResizable(false);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel ansJPanel = new JPanel();
         ansJPanel.setLayout(new GridLayout(2, 1));
         ansJPanel.setBounds(20, 50, 300, 42);
         JTextField entry = new JTextField(23);
-
+        entry.setEditable(false);
+        entry.setToolTipText("calculate");
         entry.setBounds(0, 0, 50, 15);
         ansJPanel.add(entry);
-        JLabel st = new JLabel("STATUS:",JLabel.LEFT);
+        JLabel st = new JLabel("STATUS:", JLabel.LEFT);
         JPanel operand = new JPanel(new GridLayout(5, 4, 4, 4));
 
         String op[] = {
@@ -35,16 +35,30 @@ public class calculator {
             num[i] = new JButton(String.valueOf(op[i]));
 
             num[i].addActionListener(l -> {
-                entry.setText(entry.getText() + String.valueOf(op[x]));
+                String c = String.valueOf(op[x]);
+                if (c.equals("=")) {
+                    entry.setText(calcu(entry.getText()));
+                    st.setText(status(entry.getText()));
+                } else if (c.equals("c") || c.equals("AC")) {
+                    entry.setText("");
+                    st.setText("Status : ");
+                } else
+                    entry.setText(entry.getText() + c);
             });
             operand.add(num[i]);
 
         }
-       
+        // JInternalFrame frame = new JInternalFrame("child frame", true, true, false, false);
+        // frame.setSize(300, 250);
+        
+        // f.add(frame);
+        // frame.setVisible(true);
+        num[16].setBounds(15,23,40,45);
+               System.out.println(num[16].getSize()); 
 
         ansJPanel.add(st);
         f.add(ansJPanel);
-        
+
         f.add(operand);
         // JFrame demo = new JFrame("demo");
         // demo.setVisible(true);
@@ -57,11 +71,18 @@ public class calculator {
         f.setVisible(true);
 
     }
-}
 
-class calc extends JFrame {
+    public static String calcu(String s) {
 
-    public calc() {
+
+        return "Result";
+    }
+
+    static String status(String s) {
+        if (calcu(s).equals("Error"))
+            return "Something went wrong";
+        else
+            return "operation successful";
 
     }
 }

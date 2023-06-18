@@ -1,2 +1,2 @@
 # AASTU_swe
-This repo is to store my work during AASTU jorny
+<div syle = "font-weight = bold , color= green">This repo is to store my work during AASTU jorny<div>
