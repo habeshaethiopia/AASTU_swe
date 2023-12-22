@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<h1>Line Drawing</h1>
+
+<body>
+    <div>
+        <canvas id="canvas" class="myCanvas" width="640" height="480" style="border: 1px solid rgb(27, 26, 26)" />
+    </div>
+    <div>
+        <form action="" method="get" name="inputs" style="display: contents;" onsubmit="draw(event)">
+            <select id="op">
+
+                <option value="dda">drawDDALine</option>
+                <option selected value="bre">BresenhamsLine</option>
+
+            </select>
+            <br>
+            <input type="text" id="line1" placeholder="x1">
+
+            <input type="text" id="line2" placeholder="y1">
+            <br>
+            <input type="text" id="line3" placeholder="x2">
+
+            <input type="text" id="line4" placeholder="y2">
+            <br>
+            <input type='submit' value="draw">
+            <button onclick="()->{clearRect(x, y, width, height)}">clear</button>
+            <br>
+        </form>
+    </div>
+
+
+    <script>
+        function draw(e) {
+            const canvas = document.getElementById('canvas');
+            var ctx = canvas.getContext('2d');
+            ctx.strokeStyle = 'blue';
+            e.preventDefault()
+            var option = document.getElementById("op").value
+            var x1 = +document.getElementById("line1").value
+            var y1 = +document.getElementById("line2").value
+            var x2 = +document.getElementById("line3").value
+            var y2 = +document.getElementById("line4").value
+            if (option === "dda") {
+                drawDDALine(x1, y1, x2, y2);
+                console.log(option)
+            } else
+                drawBresenhamLine(x1, y1, x2, y2)
+            console.log('option IS bre')
+        }
+
+        function drawDDALine(x1, y1, x2, y2) {
+            const canvas = document.getElementById('canvas');
+            var ctx = canvas.getContext('2d');
+            
+            ctx.strokeStyle = 'blue';
+            const dx = x2 - x1;
+            const dy = y2 - y1;
+            const steps = Math.max(Math.abs(dx), Math.abs(dy));
+            const xIncrement = dx / steps;
+            const yIncrement = dy / steps;
+
+            let x = x1;
+            let y = y1;
+
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+
+            for (let i = 0; i < steps; i++) {
+                x += xIncrement;
+                y += yIncrement;
+                ctx.lineTo(Math.round(x), Math.round(y));
+                ctx.strokeRect(x, y, 1, 1);
+                console.log(x, y);
+            }
+        }
+
+        function drawBresenhamLine(x1, y1, x2, y2) {
+            const canvas = document.getElementById('canvas');
+            var ctx = canvas.getContext('2d');
+            ctx.strokeStyle = 'blue';
+            let dx = Math.abs(x2 - x1);
+            let dy = Math.abs(y2 - y1);
+            let signX = (x1 < x2) ? 1 : -1;
+            let signY = (y1 < y2) ? 1 : -1;
+
+            let error = dx - dy;
+
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+
+            while (x1 !== x2 || y1 !== y2) {
+                ctx.lineTo(x1, y1);
+                ctx.strokeRect(x1, y1, 1, 1);
+                console.log(x1,y1)
+                let error2 = 2 * error;
+                if (error2 > -dy) {
+                    error -= dy;
+                    x1 += signX;
+                }
+
+                if (error2 < dx) {
+                    error += dx;
+                    y1 += signY;
+                }
+            }
+
+
+        }
+    </script>
+</body>
+
+</html>
