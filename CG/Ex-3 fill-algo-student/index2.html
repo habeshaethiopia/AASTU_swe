@@ -1,0 +1,99 @@
+<body>
+    <canvas id="canvas" class="myCanvas" width="640" height="480" style="border: 1px solid red" />
+
+    <script>
+        //add action listener to canvs
+        // const initialColor = ctx.getImageData(circle.x, circle.y, 1, 1).data;
+        // floodFill(circle.x, circle.y, 'purple', initialColor);
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d', {
+            willReadFrequently: true
+        });
+        canvas.addEventListener('click', (event) => {
+            const R = canvas.getBoundingClientRect();
+            const x = event.clientX - R.left;
+            const y = event.clientY - R.top;
+            // const initia = ctx.getImageData(x, y, 1, 1).data;
+            const p = ctx.getImageData(x, y, 1, 1).data;
+            // console.log(p);
+            console.log(x, y)
+            floodFill(parseInt(x), parseInt(y),'red', p);
+
+        });
+        ctx.lineWidth = 3
+        ctx.strokeStyle = 'blue'
+        ctx.beginPath();
+        ctx.arc(200, 230, 100, 0, 2 * Math.PI);
+        ctx.stroke()
+        ctx.strokeStyle = 'green'
+        ctx.beginPath();
+        ctx.arc(200, 230, 50, 0, 2 * Math.PI);
+        ctx.stroke()
+        ctx.beginPath();
+        ctx.arc(100, 100, 20, 0, 2 * Math.PI);
+        ctx.stroke()
+        ctx.beginPath();
+        ctx.arc(150, 100, 20, 0, 2 * Math.PI);
+        ctx.stroke()
+        ctx.beginPath();
+        ctx.arc(100, 100, 20, 0, 2 * Math.PI);
+        ctx.stroke()
+
+        function floodFill(x, y, newColor, targetColor) {
+            const stack = [];
+            const initialColor = ctx.getImageData(x, y, 1, 1).data;
+
+            if (
+                initialColor[0] === newColor[0] &&
+                initialColor[1] === newColor[1] &&
+                initialColor[2] === newColor[2]
+            ) {
+                return;
+            }
+
+            stack.push({
+                x,
+                y
+            });
+
+            while (stack.length) {
+                const {
+                    x,
+                    y
+                } = stack.pop();
+                const pixel = ctx.getImageData(x, y, 1, 1).data;
+
+                if (
+                    x >= 0 &&
+                    y >= 0 &&
+                    x < canvas.width &&
+                    y < canvas.height &&
+                    pixel[0] === targetColor[0] &&
+                    pixel[1] === targetColor[1] &&
+                    pixel[2] === targetColor[2] &&
+                    pixel[3] === targetColor[3]
+                ) {
+                    ctx.fillStyle = newColor;
+                    ctx.fillRect(x, y, 1, 1);
+
+                    stack.push({
+                        x: x + 1,
+                        y
+                    });
+                    stack.push({
+                        x: x - 1,
+                        y
+                    });
+                    stack.push({
+                        x,
+                        y: y + 1
+                    });
+                    stack.push({
+                        x,
+                        y: y - 1
+                    });
+                }
+            }
+        }
+    </script>
+</body>

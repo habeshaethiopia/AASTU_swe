@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flood Fill Algorithm</title>
+  <style>
+    canvas {
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="800" height="600"></canvas>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Draw a grid of rectangles
+    
+    ctx.strokeStyle='red'
+        ctx.strokeRect(10, 20, 300, 200);
+        ctx.strokeStyle='green'
+        ctx.strokeRect(100, 90, 100, 50);
+    // Flood Fill Algorithm
+ /*  function floodFill(x, y, fill_color, boundary_color) {
+    // Check if the pixel is within the canvas
+    if (x < 0 || y < 0 || x >= ctx.canvas.width || y >= ctx.canvas.height) {
+        return;
+    }
+
+    const pixelData = ctx.getImageData(x, y, 1, 1).data;
+    const currentColor = `rgb(${pixelData[0]}, ${pixelData[1]}, ${pixelData[2]})`;
+
+    // Check if the pixel is not already the fill color or the boundary color
+    if (currentColor !== boundary_color && currentColor !== fill_color) {
+        ctx.fillStyle = fill_color;
+        ctx.fillRect(x, y, 1, 1);
+
+        floodFill(x + 1, y, fill_color, boundary_color);
+        floodFill(x - 1, y, fill_color, boundary_color);
+        floodFill(x, y + 1, fill_color, boundary_color);
+        floodFill(x, y - 1, fill_color, boundary_color);
+    }
+}*/
+async function floodFill(canvas, x, y, oldColor, newColor) {
+    const ctx = canvas.getContext('2d');
+    const pixelStack = [[x, y]];
+    const startColor = hexToRgb(oldColor);
+    const fillColor = hexToRgb(newColor);
+    await delay()
+
+    while(pixelStack.length) {
+        let newPos = pixelStack.pop();
+        let x = newPos[0];
+        let y = newPos[1];
+        let pixelData = ctx.getImageData(x, y, 1, 1).data;
+        // console.log(pixelData,startColor)
+        if(pixelData[0] === startColor[0] && pixelData[1] === startColor[1] && pixelData[2] === startColor[2]) {
+            ctx.fillStyle = newColor;
+            ctx.fillRect(x, y, 1, 1);
+            // Add the neighboring pixels to the stack
+            if(x > 0) pixelStack.push([x - 1, y]);
+            if(y > 0) pixelStack.push([x, y - 1]);
+            if(x < canvas.width - 1) pixelStack.push([x + 1, y]);
+            if(y < canvas.height - 1) pixelStack.push([x, y + 1]);
+        }
+    }
+    function hexToRgb(hex) {
+        let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? [
+            parseInt(result[1], 16),
+            parseInt(result[2], 16),
+            parseInt(result[3], 16)
+        ] : null;
+    }
+}
+
+
+    // Call the floodFill function to fill an area with a color
+   // Delay function
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+floodFill(canvas, 50, 50,'#000000', '#FF0000');
+  </script>
+</body>
+</html>

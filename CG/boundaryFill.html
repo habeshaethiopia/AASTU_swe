@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boundary Fill Algorithm</title>
+  <style>
+    canvas {
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <center><canvas id="canvas" width="600" height="400"></canvas></center>
+  <!-- <canvas id="georgiaFlag" width="600" height="400"></canvas> -->
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Draw a grid of rectangles
+    ctx.strokeStyle='red'
+        ctx.beginPath();
+        ctx.arc(200, 230, 100, 0,2*Math.PI);
+        ctx.stroke()
+      ctx.strokeStyle='green'
+      ctx.strokeRect(120,230 ,40,40)
+    // Boundary Fill Algorithm
+    async function boundaryFill(x, y, fill_color, boundary_color) {
+    let stack = [[x, y]];
+    
+     await delay(3);
+    while (stack.length) {
+        let [x, y] = stack.pop();
+        let pixelData = ctx.getImageData(x, y, 1, 1).data;
+        let currentColor = `rgb(${pixelData[0]}, ${pixelData[1]}, ${pixelData[2]})`;
+        if (currentColor !== boundary_color && currentColor !== fill_color) {
+            ctx.fillStyle = fill_color;
+            ctx.fillRect(x, y, 1, 1);
+
+            // Add the neighboring pixels to the stack
+            stack.push([x + 1, y]);
+            stack.push([x, y + 1]);
+            stack.push([x - 1, y]);
+            stack.push([x, y - 1]);
+        }
+    }
+}
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+function drawLine(ctx, x1, y1, x2, y2, color) {
+            let dx = Math.abs(x2 - x1);
+            let dy = Math.abs(y2 - y1);
+            let sx = (x1 < x2) ? 1 : -1;
+            let sy = (y1 < y2) ? 1 : -1;
+            let err = dx - dy;
+
+            while (true) {
+                ctx.fillStyle = color;
+                ctx.fillRect(x1, y1, 1, 1);
+                console.log(x1, y1)
+                if ((x1 === x2) && (y1 === y2)) break;
+                let e2 = 2 * err;
+                if (e2 > -dy) {
+                    err -= dy;
+                    x1 += sx;
+                }
+                if (e2 < dx) {
+                    err += dx;
+                    y1 += sy;
+                }
+            }
+        }
+    // Call the boundaryFill8 function to fill an area with a color
+    boundaryFill(200, 200, 'rgb(0, 0, 255)', 'rgb(255, 0, 0)');
+    drawLine(ctx, 270, 0, 270, height, red)
+        drawLine(ctx, 330, 0, 330, height, red)
+        drawLine(ctx, 0, 170, width, 170, red)
+        drawLine(ctx, 0, 230, width, 230, red)
+  </script>
+</body>
+</html>

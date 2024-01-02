@@ -1,0 +1,36 @@
+<body>
+    <canvas id="canvas" class="myCanvas" width="640" height="480" style="border: 1px solid red" />
+
+    <script>
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d", {
+            willReadFrequently: true
+        });
+        p = {}
+        p.x = 20
+        p.y = 30
+        tfx = 1
+        tfy = 0
+        tf = 2
+        ctx.strokeStyle = "rgba(0, 0, 255, 1)";
+        ctx.lineWidth = 3;
+        ctx.strokeRect(p.x, p.y, 1, 1)
+        setTimeout(() => {
+            p.x = p.x + tfx
+            p.y = p.y + tfy
+            ctx.strokeRect(p.x, p.y, 1, 1)
+        }, 3000)
+        document.body.addEventListener('keydown', (e) => {
+            console.log(e.key);
+            if (e.key == "ArrowUp") {
+                p.x = p.x + tf
+                p.y = p.y
+                ctx.strokeRect(p.x, p.y, 1, 1)
+            } else if (e.key == "ArrowLeft") {
+                p.x = p.x - tf
+                p.y = p.y
+                ctx.strokeRect(p.x, p.y, 1, 1)
+            }
+        })
+    </script>
+</body>

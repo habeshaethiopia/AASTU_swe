@@ -1,0 +1,91 @@
+
+<html>
+
+<head>
+    <title>Israeli Flag</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="flagCanvas" style="margin: 2rem;" width="600" height="380"></canvas>
+
+    <!-- <script>
+        // Get the canvas element
+        const canvas = document.getElementById('flagCanvas');
+        const ctx = canvas.getContext('2d');
+        const width = 600
+        const height = 380
+        // Set the flag colors
+        const blue = '#0B72B9';
+        const white = '#FFFFFF';
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, width, height / 3);
+        ctx.fillStyle = "red";
+        ctx.fillRect(0, height / 3, width, height / 3);
+        ctx.fillStyle = "green";
+        ctx.fillRect(0, 2 * height / 3, width, height / 3);
+
+        // ctx.arc(width/2, height/2, height/4, 0, 2* Math.PI);
+        // ctx.stroke();
+        // ctx.strokeStyle = "blue";
+        // //draw star in center of the arc
+        // ctx.stroke();
+
+    </script> -->
+    <script>
+        // Get the canvas element
+        const canvas = document.getElementById('flagCanvas');
+        const ctx = canvas.getContext('2d');
+        const width = 600;
+        const height = 400;
+    
+        // Set the flag colors
+        const black = '#000000';
+        const red = '#FF0000';
+        const green = '#008000';
+    
+        // Draw the black stripe
+        ctx.fillStyle = black;
+        ctx.fillRect(0, 0, width, height / 3);
+    
+        // Draw the red stripe
+        ctx.fillStyle = red;
+        ctx.fillRect(0, height / 3, width, height / 3);
+    
+        // Draw the green stripe
+        ctx.fillStyle = green;
+        ctx.fillRect(0, 2 * height / 3, width, height / 3);
+    
+        
+        // Draw the sun
+ctx.beginPath();
+ctx.arc(width / 2, height / 3 -10, height / 6,  0,  Math.PI, true);
+ctx.fillStyle = 'red';
+ctx.fill();
+
+// Draw the rays
+const rayLength = height / 6;
+const rayCount = 31;
+const angleBetweenRays = 2 * Math.PI / rayCount;
+ctx.strokeStyle = 'red';
+
+for (let i = 0; i < rayCount; i++) {
+    const angle = i * angleBetweenRays;
+    const rayStartX = width / 2 + Math.cos(angle) * height / 6;
+    const rayStartY = height / 6 + Math.sin(angle) * height / 6;
+    const rayEndX = width / 2 + Math.cos(angle) * (height / 6 + rayLength);
+    const rayEndY = height / 6 + Math.sin(angle) * (height / 6 + rayLength);
+
+    ctx.beginPath();
+    ctx.moveTo(rayStartX, rayStartY);
+    ctx.lineTo(rayEndX, rayEndY);
+    ctx.stroke();
+}
+    </script>
+</body>
+
+</html>
