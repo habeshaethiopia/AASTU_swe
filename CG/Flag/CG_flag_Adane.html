@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        canvas {
+            border: 1px solid #000;
+            display: Block;
+            border: 1px rgb(255, 0, 0) solid;
+            background-color: white;
+            align-items: center;
+
+        }
+
+        body {
+            background-color: gray;
+            display: flex;
+            justify-content: space-evenly;
+        }
+        .my_info{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+    <title>Georgia Flag</title>
+</head>
+
+<body>
+
+    <div class="my_info">
+        <div class="section">
+            <h1>Name: Adane Moges</h1>
+            <h2>Id: Ets0079/13 <br>Section: A</h2>
+            <h3>Flag County: <a href="https://www.shutterstock.com/image-vector/flag-georgia-361042352" target="_blank"
+                    rel="noopener noreferrer">Georgia</a>
+        </div></h3>
+    </div>
+    <div class="the canvas">
+        <canvas id="georgiaFlag" width="600" height="400"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('georgiaFlag');
+        const ctx = canvas.getContext('2d', {
+            willReadFrequently: true
+        });
+        let width = canvas.width;
+        let height = canvas.height;
+        // Bresenham line drawing algorithm
+        function drawLine(ctx, x1, y1, x2, y2, color) {
+            let dx = Math.abs(x2 - x1);
+            let dy = Math.abs(y2 - y1);
+            let sx = (x1 < x2) ? 1 : -1;
+            let sy = (y1 < y2) ? 1 : -1;
+            let err = dx - dy;
+
+            while (true) {
+                ctx.fillStyle = color;
+                ctx.fillRect(x1, y1, 1, 1);
+                if ((x1 === x2) && (y1 === y2)) break;
+                let e2 = 2 * err;
+                if (e2 > -dy) {
+                    err -= dy;
+                    x1 += sx;
+                }
+                if (e2 < dx) {
+                    err += dx;
+                    y1 += sy;
+                }
+            }
+        }
+        //boundary Fill Algorithm
+        function boundaryFill(x, y, fill_color, boundary_color) {
+            let stack = [
+                [x, y]
+            ];
+
+
+            while (stack.length) {
+                let [x, y] = stack.pop();
+                let pixelData = ctx.getImageData(x, y, 1, 1).data;
+                let currentColor = `rgb(${pixelData[0]}, ${pixelData[1]}, ${pixelData[2]})`;
+                if (currentColor !== boundary_color && currentColor !== fill_color) {
+                    ctx.fillStyle = fill_color;
+                    ctx.fillRect(x, y, 1, 1);
+                    // Add the neighboring pixels to the stack
+
+                    stack.push([x + 1, y]);
+                    stack.push([x, y + 1]);
+                    stack.push([x - 1, y]);
+                    stack.push([x, y - 1]);
+
+                }
+            }
+        }
+
+
+        //draw line 
+        const red = 'rgb(255, 0, 0)';
+        const black = 'rgb(0  , 0, 0)';
+        const white = 'rgb(255, 255, 255)';
+        //line for bigger cross
+        drawLine(ctx, 270, 0, 330, 0, red)
+        drawLine(ctx, 270, 0, 270, height, red)
+        drawLine(ctx, 270, height - 1, 330, height - 1, red)
+        drawLine(ctx, 330, 0, 330, height, red)
+        drawLine(ctx, 0, 170, 0, 230, red)
+        drawLine(ctx, 0, 170, width, 170, red)
+        drawLine(ctx, 0, 230, width, 230, red)
+        drawLine(ctx, width - 1, 170, width - 1, 230, red)
+        //boundary fill the big cross
+        boundaryFill(280, 10, red, red)
+        boundaryFill(280, 180, red, white)
+        boundaryFill(180, 180, red, white)
+        boundaryFill(380, 180, red, white)
+        boundaryFill(280, 240, red, white)
+        const draw_and_fill = (w = 0, h = 0) => {
+            p = [{
+                    x: 100 + w,
+                    y: h + 35
+                },
+                {
+                    x: 130 + w,
+                    y: h + 35
+                },
+                {
+                    x: 130 + w,
+                    y: h + 135
+                },
+                {
+                    x: 100 + w,
+                    y: h + 135
+                },
+                {
+                    x: 100 + w,
+                    y: h + 35
+                },
+                {
+                    x: 65 + w,
+                    y: h + 70
+                },
+                {
+                    x: 65 + w,
+                    y: h + 100
+                },
+                {
+                    x: 165 + w,
+                    y: h + 100
+                },
+                {
+                    x: 165 + w,
+                    y: h + 70
+                },
+                {
+                    x: 65 + w,
+                    y: h + 70
+                },
+            ]
+            //draw the cross
+            for (let i = 0; i < 4; i++) {
+                drawLine(ctx, p[i].x, p[i].y, p[i + 1].x, p[i + 1].y, red)
+                drawLine(ctx, p[i + 5].x, p[i + 5].y, p[i + 6].x, p[i + 6].y, red)
+            }
+            //the points in the circle
+            inp = [{
+                    x: 110 + w,
+                    y: 40 + h
+                },
+                {
+                    x: 120 + w,
+                    y: 130 + h
+                },
+                {
+                    x: 80 + w,
+                    y: 80 + h
+                },
+                {
+                    x: 160 + w,
+                    y: 80 + h
+                },
+                {
+                    x: 110 + w,
+                    y: 80 + h
+                }
+            ]
+            for (i of inp)
+                boundaryFill(i.x, i.y, red, white)
+            // console.log(i)
+        };
+        //the first quadrant
+        draw_and_fill()
+        //the second quadrant
+        h = 0
+        w = 330
+        draw_and_fill(w, h)
+
+        //the third quadrant
+        h = 230
+        w = 0
+        draw_and_fill(w, h)
+        //the forth quadrant
+        h = 230
+        w = 330
+        draw_and_fill(w, h)
+    </script>
+</body>
+
+</html>
