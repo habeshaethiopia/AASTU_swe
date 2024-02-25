@@ -10,7 +10,7 @@
 
         }
     </style>
-    <title>Georgia Flag</title>
+    <title>Translation </title>
 </head>
 
 <body>
@@ -130,9 +130,9 @@
         };
 
         function degRad(d) {
-            return d * (Math.PI / 180) - Math.PI / 2;
+            return d * (Math.PI / 180);
         }
-        const rotation = (rad, px = 50, py = 25) => {
+        const rotation = (rad, px = p[4].x, py = p[4].y + 20) => {
             rad = degRad(rad)
             const rotate = (rad, pnt) => {
                 x = pnt.x - px
@@ -150,8 +150,8 @@
             }
 
             for (let i = 0; i < p.length - 1; i++) {
-               
-                drawLine(ctx, p[i].x, p[i].y, p[i+1].x, p[i+1].y)
+
+                drawLine(ctx, p[i].x, p[i].y, p[i + 1].x, p[i + 1].y)
             }
         }
 
@@ -161,8 +161,62 @@
             console.log("reach")
         }, 20);
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        rotation(180)
 
+
+        console.log(p)
+        //translate along x until canvas border ?
+        var x = 2
+        const to_Right = async (time) => {
+            rotation(90)
+            while (p[4].x < width - 35) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height)
+                translation(15, 0)
+                await delay(time)
+            }
+        }
+        const to_left = async (time) => {
+            console.log(p)
+            rotation(90)
+            while (p[4].x > 15) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height)
+                translation(-15, 0)
+                await delay(time)
+            }
+            console.log(p)
+        }
+        const to_up = async (time) => {
+            console.log(p)
+            rotation(90)
+            while (p[4].y > 15) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height)
+                translation(0, -15)
+                await delay(time)
+            }
+            console.log(p)
+        }
+        const to_down = async (time) => {
+            console.log(p)
+            rotation(90)
+            while (p[4].y < height - 35) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height)
+                translation(0, 15)
+                await delay(time)
+            }
+            console.log(p)
+        }
+        const start = async (time) => {
+            await to_Right(time);
+            console.log("to_right")
+            await to_down(time)
+            console.log("to_down")
+            await to_left(time)
+            console.log("to_left")
+            await to_up(time)
+            console.log("to_up")
+
+        }
+        start(100)
+        // translation(200,120)
         function getMousepos(canvas, e) {
             let rect = canvas.getBoundingClientRect();
             return {
@@ -173,12 +227,9 @@
         canvas.addEventListener('click', (e) => {
             let pos = getMousepos(canvas, e)
             console.log(pos)
-            translation(pos.x, pos.y)
+            
         })
-        console.log(p)
-        //translate along x until canvas border
-        
-        translation(200,120)
     </script>
 </body>
+
 </html>

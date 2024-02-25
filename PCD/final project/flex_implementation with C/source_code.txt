@@ -1,0 +1,12 @@
+int main() {
+    int num_1 = 42;
+    float pi = 3.14;
+    float x=num1+pi;
+    char greeting[] = "Hello, World!";
+    //hello
+    printf("Integer: %d\n", num1);
+    printf("Float: %f\n", pi);
+    printf("String: %s\n", greeting);
+
+    return 0;
+}
