@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from math import ceil
 
+
 from GUI import model, df, job_titles, education_list
 
 # Define page functions
@@ -78,20 +79,43 @@ def predict_salary():
 
         # Display the prediction
         st.success(f"The predicted salary is: {ceil(prediction[0])}$ yearly")
-
+        # Display the "Try Again" button
+        if st.button("Try Again", key="try_again"):
+            # Clear all the input fields and reset the page
+            st.experimental_rerun()
 
 def about_us():
-    st.title("About Us")
-    st.write(
-        """
-    ## About Us 🤝
-    This app was developed by [Your Name]. It uses a machine learning model to predict salaries based on various features.
-    Feel free to reach out for any queries or collaborations.
-    """
-    )
-    st.image(
-        "https://via.placeholder.com/800x300.png?text=About+Us", use_column_width=True
-    )
+    st.title('About Us')
+    st.write("""
+    ## Team Members
+
+    We are a group of dedicated students working together on a project to predict annual salaries based on various factors such as age, sex, job title, and years of experience. Our team members bring diverse skills and expertise to this project, aiming to provide valuable insights and solutions.
+
+     ### Group Members
+
+    | **Name**          | **ID**        |
+    |-------------------|---------------|
+    | Adane Moges       | ETS0079/13    |
+    | Abdulmajid Awol   | ETS0016/13    |
+    | Abel Atkelet      | ETS0020/13    |
+    | Amanuel Mandefrow | ETS0122/13    |
+    | Elias Balude      | ETS0237/12    |
+
+    ________________________________________________________________
+
+    We have combined our knowledge in data science, machine learning, and software development to create a comprehensive and user-friendly application. This project not only showcases our technical skills but also our ability to work collaboratively to achieve common goals.
+
+    ### Our Goal
+
+    Our goal is to develop a reliable salary prediction model that can assist both professionals and employers in understanding salary dynamics and making informed decisions. We hope that our work can contribute to better career planning and compensation strategies.
+
+    ### Contact Us
+
+    For any inquiries or feedback, please feel free to contact us at [hear](mailto:adanemoges6@gmail.com).
+
+    Thank you for using our Salary Predictor application!
+    """)
+
 
 
 

@@ -9,11 +9,11 @@ print(sys.path)
 
 model = pickle.load(
     open(
-        "Group Assignment/model/salary predictor(dtr).pkl",
+        "model/salary predictor(dtr).pkl",
         "rb",
     )
 )
-df = pickle.load(open("Group Assignment/model/df.pkl", "rb"))
+df = pickle.load(open("model/df.pkl", "rb"))
 
 # Define the unique job titles
 job_titles = df.columns[5:].tolist()
